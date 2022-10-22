@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>MU-TH-UR [6000-Series]</title>
+
+  <!-- https://www.w3schools.com/howto/tryit.asp?font=Share%20Tech%20Mono -->
+  <link href='https://fonts.googleapis.com/css?family=Share Tech Mono' rel='stylesheet'>
+
+  <!-- https://github.com/hmongouachon/mgGlitch -->
+  <script src="https://chr15m.github.io/bugout/bugout.min.js" type="application/javascript"></script>
+
+  <!-- external libraries -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+    integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+    crossorigin="anonymous"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/pixi.js/dist/pixi.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pixi-filters/dist/pixi-filters.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.5/gsap.min.js"></script>
+
+  <!-- socket.io -->
+  <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+
+
+  <!-- typewriter sound -->
+  <audio class="sound" src="typewriter/typewriter-key-even.wav"></audio>
+  <audio class="sound" src="typewriter/typewriter-key-odd.wav"></audio>
+  <audio id="printer-audio" src="typewriter/printer.wav"></audio>
+  <audio id="mother-audio" src="typewriter/mother.wav"></audio>
+  <audio id="camera" src="typewriter/camera-shutter-click-02.wav"></audio>
+
+  <!-- My own scripts -->
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <link rel="stylesheet" type="text/css" href="css/glitch.css" />
+  <link rel="stylesheet" type="text/css" href="css/navbar.css" />
+  <link rel="stylesheet" type="text/css" href="css/carousel.css" />
+  <link rel="stylesheet" type="text/css" href="css/keyboard.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootbox.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- TOP MENU - START -->
+  <!-- https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_navbar_right&stacked=h -->
+  <div class="footer navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Wayland-Yutani [Site LC1413]</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <button type="button" id="sidebarCollapse" class="btn btn-outline">
+            <span class="glyphicon glyphicon-folder-open"></span>
+          </button>
+        </li>
+        <li>
+          <button type="button" id="mute-button" class="btn btn-outline" onclick="toggleSound();">
+            <span class="glyphicon glyphicon-volume-up fa-lg"></span>
+          </button>
+        </li>
+        <li>&nbsp;</li>
+      </ul>
+    </div>
+  </div>
+  <!-- TOP MENU - END -->
+
+
+  <div class="wrapper">
+    <!-- Sidebar - START -->
+    <nav id="sidebar">
+      <div class="sidebar-header"></div>
+
+      <ul class="list-unstyled components">
+        <li>
+          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Logs</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu">
+            <li>
+              <a href="#" id="21230315">ENTRY 21230315:1345hrs</a>
+            </li>
+            <li>
+              <a href="#" id="21230323">ENTRY 21230323:1305hrs</a>
+            </li>
+            <li>
+              <a href="#" id="21230325">ENTRY 21230325:2000hrs</a>
+            </li>
+            <li>
+              <a href="#" id="21230405">ENTRY 21230405:2000hrs</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">PERSONEL FILES</a>
+        </li>
+        <li>
+          <a href="#" id="tutorialBtn">FACITLITY MAPS</a>
+        </li>
+      </ul>
+
+      <div class="container">
+        <p id="array-a" title=""></p>
+        <p id="array-b" title=""></p>
+        <p id="array-c" title=""></p>
+      </div>
+      <br>
+
+      <div class="container">
+        <div id="transmission">
+          <p title="Incoming Transmissions">Incoming Transmissions</p>
+          <div id="img-anchor"></div>
+        </div>
+      </div>
+    </nav>
+    <!-- Sidebar - END -->
+
+    <!-- Modal - START -->
+    <div class="modal fade" id="incomingData" tabindex="-1" role="dialog" aria-labelledby="incomingData">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <!-- <img id="myImage" class="img-responsive" src="" alt=""> -->
+            <canvas id="canvasData"></canvas>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline pull-right" data-dismiss="modal">close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal - END -->
+
+    <!-- Faciility Maps -->
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="tutorialData">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="item active">
+                <img class="img-responsive" src="img/lc1413-1.png">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+              </div>
+              <div class="item">
+                <img class="img-responsive" src="img/lc1413-2.png">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <p>Wayland-Yutani Excavation Site LC1413</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN - START -->
+    <div id="content">
+      <p id="welcome"></p>
+      <br>
+
+      <div id="log">
+        <!-- <canvas id="example" class="center"></canvas> -->
+        <div id="anchor"></div>
+      </div>
+
+      <div class="container">
+        <div class="row" style="padding-top: 10px;">
+          <div class="col-2"></div>
+          <div id="user-input" class="col-10">
+            <pre id="input" contenteditable="true"></pre>
+          </div>
+          <div class="col-2"></div>
+        </div>
+
+        <form class="form-horizontal" id="image-form">
+          <div class="form-group">
+            <div class="col-md-11">
+              <input id="file-upload" class="form-control input-sm" type="file"
+                style="margin-left: -15px; color: #4fbfa8;" />
+            </div>
+            <button class="btn btn-default pull-right" id="inputImg" onclick="return false;">
+              <span class="glyphicon glyphicon-floppy-disk"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MAIN - END -->
+    <div class="footer navbar-fixed-bottom">
+
+    </div>
+  </div>
+
+</body>
+<!-- global variables -->
+<script type='text/javascript'>
+  var server = undefined;
+  var user = undefined;
+  var sound = true; // false for dev
+</script>
+<script src="js/glitch.js"></script>
+<script type="text/javascript" src="js/keyboard.js"></script>
+<script type="text/javascript" src="js/server.js"></script>
+<script type="text/javascript" src="js/chat.js"></script>
+<script type="text/javascript" src="js/arrays.js"></script>
+
+</html>
