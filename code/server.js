@@ -69,7 +69,7 @@ server.listen(process.env.PORT || 8080, function () {
 
     const io = require('socket.io')(server, {
         cors: {
-            origin: "https://retro-mainframe.herokuapp.com/",
+            origin: "https://mu-th-ur-app.azurewebsites.net",
             methods: ["GET", "POST"]
         }
     });
